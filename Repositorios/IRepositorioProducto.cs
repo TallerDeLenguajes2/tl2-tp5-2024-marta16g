@@ -8,7 +8,7 @@ namespace EspacioRepositorios
         void CrearProducto(Producto producto);
         void ModificarProducto(int id, Producto producto);
         List<Producto> ListarProductos();
-        Producto ObtenerDetallesDeUnProducto(int Id);
+        Producto ObtenerUnProducto(int Id);
         void EliminarProducto(int id);
     }
 }

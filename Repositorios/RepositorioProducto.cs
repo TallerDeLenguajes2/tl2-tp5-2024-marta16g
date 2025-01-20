@@ -46,7 +46,7 @@ namespace EspacioRepositorios
         {
             var listaProductos = new List<Producto>();
             string connectionString = @"Data Source = db/Tienda.db;Cache=Shared";
-            string query = "@SELECT idProducto, Descripcion, Precio FROM Productos";
+            string query = "@SELECT * FROM Productos";
 
             using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
@@ -56,7 +56,7 @@ namespace EspacioRepositorios
                     while (reader.Read())
                     {
                         var unProducto = new Producto();
-                        
+
                         unProducto.IdProducto = Convert.ToInt32(reader["idProducto"]);
                         unProducto.Descripcion = reader["Descripción"].ToString();
                         unProducto.Precio = Convert.ToInt32(reader["Precio"]);
@@ -70,9 +70,32 @@ namespace EspacioRepositorios
 
             return listaProductos;
         }
-        public Producto ObtenerDetallesDeUnProducto(int id)
+        public Producto ObtenerUnProducto(int id)
         {
-            return null;
+            Producto miProducto = new Producto();
+
+            string connectionString = @"Data Source = db/Tienda.db;Cache=Shared";
+            string query = "@SELECT * FROM Productos WHERE idProducto = @id";
+
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue("@id", id);
+                using (SqliteDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+
+                        miProducto.IdProducto = Convert.ToInt32(reader["idProducto"]);
+                        miProducto.Descripcion = reader["Descripcion"].ToString();
+                        miProducto.Precio = Convert.ToInt32(reader["Precio"]);
+                    }
+
+                }
+                connection.Close();
+            }
+            return miProducto;
         }
 
         public void EliminarProducto(int id)
