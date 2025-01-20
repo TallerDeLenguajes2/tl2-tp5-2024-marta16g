@@ -8,6 +8,7 @@ namespace EspacioProducto
         public string? Descripcion { get; set; }
         public int Precio { get; set; }
 
+        public Producto(){}
         public Producto(int idProducto, string descripcion, int precio)
         {
             IdProducto = idProducto;
